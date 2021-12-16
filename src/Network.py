@@ -1,11 +1,12 @@
 import tensorflow as tf
 from keras.layers import Activation, Conv2D, Input, MaxPooling2D, BatchNormalization, Lambda, GlobalAveragePooling2D
 from keras.layers.merge import concatenate
+from keras.models import Model, Sequential
 
 
 def space_to_depth_x2(x):
-
-    return tf.space_to_depth(x,block_size=2)
+    import tensorflow as tf
+    return tf.nn.space_to_depth(x,block_size=2)
 
 def Network1():
     input = Input(shape=(64, 64, 3))
@@ -88,7 +89,9 @@ def Network1():
     layer22 = GlobalAveragePooling2D(data_format=None)(layer21)
     output = Activation('softmax')(layer22)
 
-    return output
+    model = Model(inputs=[input], outputs=[output])
+
+    return model
 
 def Network2():
     input = Input(shape=(64, 64, 3))

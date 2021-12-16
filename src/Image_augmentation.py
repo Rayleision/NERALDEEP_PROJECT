@@ -19,8 +19,12 @@ def Image_augmentation(network_num, val_annotations='./tiny-imagenet-200/val/val
 
     ''' use imgaug for augmentation '''
     if network_num == 1:
-        image_aug = iaa.SomeOf((0, 5), [iaa.Affine(scale={"x": (0.8, 1.2), "y": (0.8, 1.2)}), iaa.CoarseDropout((0.03, 0.15), size_percent=(0.02, 0.05)),
-                                           iaa.Affine(rotate=(-10, 10)), iaa.AdditiveGaussianNoise(scale=0.05 * 255), iaa.CropAndPad(percent=(-0.1, 0.1))])
+        # image_aug = iaa.SomeOf((0, 5), [iaa.Affine(scale={"x": (0.8, 1.2), "y": (0.8, 1.2)}), iaa.CoarseDropout((0.03, 0.15), size_percent=(0.02, 0.05)),
+        #                                    iaa.Affine(rotate=(-10, 10)), iaa.AdditiveGaussianNoise(scale=0.05 * 255), iaa.CropAndPad(percent=(-0.1, 0.1))])
+
+        image_aug = iaa.SomeOf((0, None), [iaa.Affine(scale=(0.5, 1.5)), iaa.Affine(rotate=20),
+    iaa.CoarseDropout((0.0, 0.2), size_percent=(0.05, 0.07)), iaa.AdditiveGaussianNoise(scale=0.05*255), iaa.CropAndPad(percent=(-0.25, 0.25))
+     ])                                          
     elif network_num == 2:
         image_aug = iaa.SomeOf(10, [iaa.Fliplr(0.5), iaa.Flipud(0.5), iaa.GaussianBlur(sigma=(0.0, 3.0)), iaa.CropAndPad(percent=(-0.1, 0.1)),
                                     iaa.Affine(scale={"x": (0.8, 1.2), "y": (0.8, 1.2)}), iaa.Affine(translate_percent={"x": (-0.2, 0.2), "y": (-0.2, 0.2)}),
